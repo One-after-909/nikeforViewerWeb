@@ -9,7 +9,7 @@ export async function GET(event) {
   const res = await BiblesModel.aggregate([
     { $unwind: "$chapters" },
     { $match: { lang: lang, id: bookId, "chapters.chapter": chapterId } },
-    { $project: { chapters: { chapter: 1 } } },
+    { $project: {  _id: 0, chapter: "$chapters.chapter", verse_count: { $size: "$chapters.verses" } }},
   ]);
-  return json(res[0].chapters);
+  return json(res[0]);
 }

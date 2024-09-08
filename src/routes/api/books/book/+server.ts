@@ -7,7 +7,7 @@ export async function GET(event) {
 
   const res = await BiblesModel.aggregate([
     { $match: { lang: lang, id: { $eq: bookId } } },
-    { $project: { id: 1, code: 1, lang: 1, name: 1 } },
+    { $project: { id: 1, code: 1, lang: 1, name: 1, chapter_count: { $size:"$chapters" } } },
   ]).exec();
   return json(res[0]);
 }
